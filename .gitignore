@@ -82,3 +82,4 @@ CTestTestfile.cmake
 # CLion Project Files
 **/.idea
 **/cmake-build-debug
+CMakeLists.txt
