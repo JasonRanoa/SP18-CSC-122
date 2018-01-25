@@ -1,0 +1,40 @@
+CSC 121 Computer Science II
+Chapter 11 Subsection
+	11.5 Copy Constructors
+	----------------------
+
+... missed class here. No notes found.
+
+There are two ways you can make a copy constructor.
+These behave in different ways.
+	Say, we have this code:
+		Length a, b;
+		a = Length(1, 4);
+		b = Length(3, 5);
+
+ (1)	Inside the class definition, such as...
+
+			class Length {
+			private:
+				double Length;
+			public:
+				// methods
+				operator+(Length b)
+			}
+
+		Length c = q + b;
+		This will not run since this gets interpreted by the
+		compiler as a.operator+(b).
+
+ (2)	Outside the class definition, such as...
+
+			class Length {
+				...
+				// friend operator+
+			}
+ 			Length operator+(Length, a, b) {
+				...
+			}
+
+		For, Length c = a + b
+		The compiler will interpret that as Length::+(a, b)
