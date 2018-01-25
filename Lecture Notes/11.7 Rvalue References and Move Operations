@@ -1,0 +1,70 @@
+CSC 121 Computer Science II
+Chapter 11 More about Objects
+	11.7 Rvalue References and Move Operators
+	-----------------------------------------
+
+QUESTION.
+Why do we need move constructors?
+--------------------------------
+
+	( This is newly added to C++11 )
+	Copy constructors can be slow at times. Move operators are a
+	solution to that.
+
+		For example,
+			object Foo() { ... return obj }
+			The function, Foo(), returns by value.
+			The object inside, obj, is created when Foo() is made and
+				destroyed when Foo() goes out of scope.
+
+			So, if we have ...
+				main() {
+					object x = foo();
+				}
+
+			Before the C++11 Standard,
+				The = operation is a copy operation.
+				This involves creating new objects, swapping the data
+				from obj -> x, destroying obj, and all that.
+				That's expensive.
+
+	------> After the C++11 Standard,
+				the = operation is move operation.
+				Var x simply redirects its memory assignment.
+					The previous value of x is destroyed.
+				There fewer less memory operations.
+
+
+//	ALSO -- Swapping in RAM is an expensive operation.
+			Refrain from doing it as much as possible.
+			Too much swapping is also called THRASHING
+				wherein the program does memory swapping
+				instead of the actual operations.
+
+
+// 	TRIVIA:
+	The way a programming language gets new features is decided
+	by a committee. The committee determines the new standards to
+	the public and the compiler creators follow.
+
+	The latest update for C++ is the C++11 Standard.
+
+---
+
+QUESTION:
+What are R-Values?
+-----------------
+
+	For example, if we have ...
+		int x = 5;
+
+	The named value, x, is called an lvalue.
+	It's a memory address that can be accessed (e.g. using a var or ptr)
+
+ -> In contrast, 5 is an rvalue. It cannot be accessed again.
+
+	For C++11,
+		we can use two ampersands in front of an rvalue
+		to get the address.
+
+	
