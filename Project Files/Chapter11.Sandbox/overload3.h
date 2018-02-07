@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class NumberArray
-{
+class NumberArray {
 private:
     double *aPtr;
     int arraySize;
@@ -14,6 +13,10 @@ public:
     // Default constructor and regular constructor
     NumberArray();
     NumberArray(int size, double value);
+
+    // Move Assignment and Move Constructor
+    NumberArray& operator=(NumberArray &&);
+    NumberArray(NumberArray &&);
 
     // Destructor
     ~NumberArray();

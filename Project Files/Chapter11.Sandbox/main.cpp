@@ -1,10 +1,9 @@
-// This program demonstrates the copy constructor and the
-// copy assignment operator for the NumberArray class.
+// This program demonstrates move constructor
+// the move assignment operator.
 #include <iostream>
-#include "overload2.h"
+#include "overload3.h"
 using namespace std;
 
-//Function Prototype
 NumberArray makeArray();
 
 int main()

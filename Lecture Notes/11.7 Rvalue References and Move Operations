@@ -41,13 +41,14 @@ Why do we need move constructors?
 				wherein the program does memory swapping
 				instead of the actual operations.
 
-
 // 	TRIVIA:
 	The way a programming language gets new features is decided
 	by a committee. The committee determines the new standards to
 	the public and the compiler creators follow.
 
 	The latest update for C++ is the C++11 Standard.
+
+//	See Program 11-14 and 11-15 for stuff.
 
 ---
 
@@ -66,5 +67,3 @@ What are R-Values?
 	For C++11,
 		we can use two ampersands in front of an rvalue
 		to get the address.
-
-	
