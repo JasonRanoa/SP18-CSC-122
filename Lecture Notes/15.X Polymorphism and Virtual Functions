@@ -1,0 +1,110 @@
+CSC 121 001
+Computer Science I
+
+15.X Polymorphism and Virtual Functions
+---------------------------------------
+
+15.1 Type Compatibility in Inheritance Hierarchies.
+	 * This is not Polymorphism yet. It's more.
+
+Here's the problem with inheritance:
+For example, you have this --
+	Class Person -> Faculty -> TFaculty
+
+And we have this code:
+
+	TFaculty* tf = new TFaculty;
+	Person* p = new Person;
+
+The question is -- Are these valid assignments?
+
+	(1)	p = tf;
+	(2)	tf = p;
+
+To answer that, we need to understand what happens
+in the heap space (RAM).
+
+	When tf is virtually allocated,
+	a space of [TFaculty] is created.
+		Since TFaculty inherits from Person,
+		there's some space for a full object of Person.
+
+When (1) happens, we may run into a runtime error.
+Assigning p to the tf memory location, all members
+	from TFaculty become inaccessible to p.
+	It's still legal though.
+
+	NOTE. This is also a narrowing conversion.
+		  This is safer.
+
+(2) is not allowed.
+When tf points to a Person memory location,
+it would think that it still points to a TFaculty memory location.
+	Therefore, it might call an non-existent member.
+
+	NOTE. This is a widening conversion.
+		  This might be dangerous.
+
+	We also need to typecast when we do this.
+	But still, it's dangerous.
+
+SO -- (1) and (2) are allowed at compile time.
+	  But they might have problems at runtime.
+
+Program 15-1 presents this.
+
+---------------------------------------------
+
+15.2 Polymorphism and Virtual Member Functions.
+
+First, we should discuss Virtual Member Functions.
+Scenario:
+	What we usually want to call is the latest overriding function.
+	If that's not there, go up.
+
+	To do that, we should make virtual functions at the
+	top of the hierarchy (the base-st class)
+
+Program 15-2 demonstrates this without polymorphism.
+
+	In there, there's a vector of Person pointers.
+
+	The loop afterwards calls the Person version of getName(),
+	not the overridden version at TFaculty.
+
+	To fix that (i.e. add POLYMORPHISM),
+	we add the virtual keyword to the Person::getName() definition.
+	i.e.
+
+		virtual string getName() const { return name; }
+
+	// This in the base class applies to all overridden implementations.
+	The addition of virtual says to the compiler that do NOT
+	statically bind this function implementation to Person::getName();
+
+		Therefore, the implementation that Person::getName() points to
+				   CAN CHANGE.
+
+	After that, different getName() implementations are used.
+	THIS IS POLYMORPHISM!
+
+----------------------------------------------
+
+15.3 Abstract Classes and Pure Virtual Functions.
+
+Abstract classes are classes that can't be instantiated.
+Only its subclsses (those that inherit from it) can create objects.
+
+To create an abstract class,
+create at least one pure virtual function.
+In C++, this is done by...
+
+	void functionName() = 0;
+	// Adding = 0 after defines that functionName() is purely virtual.
+
+Purely virtual means that ALL INHERITING CLASSES must have an implementation
+of the purely virtual function.
+
+----------------------------------------------
+
+KEYWORDS: override and final.

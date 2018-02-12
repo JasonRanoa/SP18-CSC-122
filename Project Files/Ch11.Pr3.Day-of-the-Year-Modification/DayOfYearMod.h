@@ -6,8 +6,9 @@
 #define CH11_PR2_DAY_OF_THE_YEAR_DAYOFYEAR_H
 
 #include <string>
+#include <iostream>
 
-class DayOfYear {
+class DayOfYearMod {
 
 public:
     static const int dayMax;
@@ -26,13 +27,23 @@ private:
     void extractDetails();
 
 public:
-    DayOfYear();
-    DayOfYear(int);
 
+    DayOfYearMod();
+    DayOfYearMod(int);
     void setDay(const int);
+
     bool isInRange(int);
+    void addToDay(int);
     void print();
 
+    // Overloaded Operators
+    DayOfYearMod operator++(int);
+    DayOfYearMod& operator++();
+
+    DayOfYearMod operator--(int);
+    DayOfYearMod& operator--();
+
+    friend std::ostream& operator<<(std::ostream&, const DayOfYearMod&);
 };
 
 
