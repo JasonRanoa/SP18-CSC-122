@@ -1,0 +1,16 @@
+FROM Chapter 15 Polymorphism and Virtual Functions
+13th February 2017 Tuesday
+--------------------------------------------------
+
+Program 15-8 Encryption Framework
+
+There's this code: virtual ... final.
+
+Here's the answer:
+https://stackoverflow.com/questions/44153281/does-it-make-sense-to-add-final-keyword-to-the-virtual-function-in-a-class-that?noredirect=1&lq=1
+
+	"
+	If you don't mark the function as virtual and final then the child-class can still implement the function and hide the base-class function.
+
+	By making the function virtual and final the child-class can not override or hide the function.
+	"
