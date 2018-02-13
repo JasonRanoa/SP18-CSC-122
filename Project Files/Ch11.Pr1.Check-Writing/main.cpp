@@ -4,7 +4,6 @@
 
 int main() {
 
-
     Numbers n(0);
 
     srand(time(NULL));

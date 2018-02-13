@@ -8,7 +8,7 @@
 #include <string>
 
 // This derived class is not complete.
-// Overloaded operators are not
+// Overloaded operators are not included
 
 class Pstring : public std::string {
 

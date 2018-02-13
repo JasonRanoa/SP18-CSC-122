@@ -2,8 +2,6 @@
 #include <vector>
 #include "IsComposite.h"
 
-void printVector(const std::vector<int> &, int = 5);
-
 int main() {
     int limit;
     std::cout << "Please enter a number greater than 1: ";

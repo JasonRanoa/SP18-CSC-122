@@ -3,17 +3,20 @@
 
 int main() {
 
-    int test[ ] = {2, 32, 365};
+    int test[ ] = {2, 32, 0}; // Ignore last test case.
     const int SIZE = sizeof(test) / sizeof(test[0]);
 
     DayOfYearMod d[SIZE];
 
     // Assign test values.
 
-    for (int i = 0; i < SIZE; i++) {
+    for (int i = 0; i < SIZE - 1; i++) {
         d[i].setDay(test[i]);
         std::cout << d[i] << " \n";
     }
+    // Assign last test case with new constructor
+    d[SIZE - 1] = DayOfYearMod("December", 31);
+    std::cout << d[SIZE - 1] << "\n";
 
     std::cout << "\n";
     std::cout << "Add a day to each. \n";

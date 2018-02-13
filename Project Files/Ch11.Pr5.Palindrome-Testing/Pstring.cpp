@@ -29,7 +29,7 @@ void Pstring::determineStatus() {
     // There's no need to test the middle char
     // against itself.
     for (i = 0; i < end; i++) {
-        if ( (*this)[i] != (*this)[size - 1 - i] ) {
+        if ( tolower((*this)[i]) != tolower((*this)[size - 1 - i]) ) {
             break;
         }
     }

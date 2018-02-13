@@ -2,7 +2,7 @@
 // Created by TheLoneWoof on 2/6/18.
 //
 
-#include <iostream>
+#include <algorithm> // For transform
 #include "DayOfYearMod.h"
 
 const int DayOfYearMod::dayMax = 365;
@@ -33,6 +33,41 @@ DayOfYearMod::DayOfYearMod(int num) {
 
 // Constructor delegated
 DayOfYearMod::DayOfYearMod() : DayOfYearMod(1) { }
+
+DayOfYearMod::DayOfYearMod(std::string monthName, int day) {
+    int nMonth = 0;
+
+    // Clean-up monthName for searching.
+    std::transform(monthName.begin(), monthName.end(), monthName.begin(), ::tolower);
+    monthName[0] = toupper(monthName[0]);
+
+    for (int i = 1; i <= numMonths; i++) {
+        if (monthName == monthNames[i]) {
+            nMonth = i;
+            break;
+        }
+    }
+
+    if (nMonth == 0) {
+        std::cout << "Error: Month not found. ";
+        exit(-404);
+    }
+
+    if (day <= 0 || day > daysPerMonth[nMonth]) {
+        std::cout << "Error: Day out of range. ";
+        exit(-403);
+    }
+
+    // If month and day are valid.
+    numMonth = nMonth;
+    month = monthNames[nMonth];
+    dayOfMonth = day;
+
+    numDay = day;
+    for (int i = 1; i < numMonth; i++) {
+        numDay += daysPerMonth[i];
+    }
+}
 
 // PRIVATE METHODS
 

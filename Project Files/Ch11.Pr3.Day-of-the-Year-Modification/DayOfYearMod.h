@@ -30,6 +30,7 @@ public:
 
     DayOfYearMod();
     DayOfYearMod(int);
+    DayOfYearMod(std::string, int);
     void setDay(const int);
 
     bool isInRange(int);

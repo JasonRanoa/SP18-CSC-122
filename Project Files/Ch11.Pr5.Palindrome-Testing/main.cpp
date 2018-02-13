@@ -3,11 +3,20 @@
 using namespace std;
 
 int main() {
-    Pstring p("abcd");
-    Pstring pone("abcba");
+    Pstring ps[ ] = {
+        Pstring("Mama"),
+        Pstring("Racecar"),
+        Pstring("Dad"),
+        Pstring("Altema"),
+        Pstring("Llonora")
+    };
+    int SIZE = sizeof(ps) / sizeof(ps[0]);
 
-    cout << p << " " << p.isPalindrome() << "\n";
-    cout << pone << " " << pone.isPalindrome() << "\n";
+    for (int i = 0; i < SIZE; i++) {
+        cout << ps[i] << " "
+             << ( ps[i].isPalindrome() ? "is" : "is NOT" )
+             << " a palindrome.\n";
+    }
 
     return 0;
 }
