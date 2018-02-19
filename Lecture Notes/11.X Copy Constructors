@@ -32,7 +32,7 @@ These behave in different ways.
 				...
 				// friend operator+
 			}
- 			Length operator+(Length, a, b) {
+ 			Length operator+(Length a, b) {
 				...
 			}
 
