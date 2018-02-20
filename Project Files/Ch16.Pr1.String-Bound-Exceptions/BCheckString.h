@@ -9,6 +9,15 @@
 
 class BCheckString : public std::string {
 
+private:
+    // This is a pointer to the first character,
+    // since after overloading my own [] operator,
+    // the string original [] operator gets
+    // overwritten and is lost.
+    char * firstChar;
+    // Note that this only works after construction.
+    // I haven't overwritten the = operators.
+
 public:
     // Exception Class
     class BoundsException {
@@ -25,7 +34,10 @@ public:
 
     BCheckString();
     BCheckString(std::string);
-    char operator[](int);
+    ~BCheckString() {
+        firstChar = nullptr;
+    }
+    char& operator[](int);
 };
 
 

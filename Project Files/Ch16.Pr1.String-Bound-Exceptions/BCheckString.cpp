@@ -6,14 +6,15 @@
 #include <iostream>
 
 BCheckString::BCheckString() : std::string("") { }
-BCheckString::BCheckString(std::string s) : std::string(s) {}
+BCheckString::BCheckString(std::string s) : std::string(s) {
+    firstChar = const_cast<char *>( this->data() );
+}
 
-char BCheckString::operator[](int k) {
+char& BCheckString::operator[](int k) {
     if (k < 0 || k >= this->size()) {
         throw BoundsException(k);
     } else {
-        char h = 'l';
-        return h;
+        return *(firstChar + k);
     }
 }
 
