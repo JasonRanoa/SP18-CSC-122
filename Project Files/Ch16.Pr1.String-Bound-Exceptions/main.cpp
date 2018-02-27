@@ -14,9 +14,7 @@ int main() {
 
     std::cout << "Testing exception handling... \n";
 
-    // I don't know why just b.length() without casting
-    // doesn't work.
-    for (int i = -2; i < (int)(b.length()) + 2; i++) {
+    for (int i = -2; i < (signed)(b.length()) + 2; i++) {
         static char t;
         try {
             t = b[i];

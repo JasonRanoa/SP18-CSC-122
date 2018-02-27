@@ -4,3 +4,17 @@
 Notes for 20 February 2018 Tuesday
 
 NOTE. Templates are runtime-binding.
+
+// ADDING STUFF AFTER.
+std::vector<int>::iterator i;
+i = std::find(vect.begin(), vect.end(), val);
+std::cout << "Found this number " << *i
+		  << " at index " << std::distance(vect.begin(), i) << ". \n";
+std::cout << "It's at index " << i - vect.begin() << "\n";
+
+*i = 900;
+
+std::cout << "Print the vector again. \n";
+for (int x = 0; x < vect.size(); x++)
+	cout << vect[x] << " ";
+cout << endl;
