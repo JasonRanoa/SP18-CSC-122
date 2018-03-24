@@ -63,7 +63,6 @@ bool DelimiterTester::testString(std::string text) {
                 lastBracket = startingBrackets[bracketIndexStack.top()];
                 testEndBracket = endingBrackets[bracketIndexStack.top()];
             }
-            continue; // Go with the next character.
         } else if (findEndBracket(s) != -1) {
             // If the stack is empty ...
             // ... and you've found an ending bracket.

@@ -4,6 +4,7 @@
 int main() {
     DelimiterTester dl;
 
+    // FALSE POSITIVE TESTS.
     std::string positiveTests[] = {
         "if ( not [ lorem ipsum ] yes )",
         "[ Error. Brackets not found(). ]",
@@ -13,14 +14,20 @@ int main() {
         "Lorem ipsum dolor amet."
     };
 
+    std::cout << "Testing for false positives: \n";
+    std::cout << "Arguments should test positive. \n";
     for (std::string s : positiveTests) {
         if (dl.testString(s)) {
-            std::cout << "Worked. \n";
+            std::cout << "  Tested positive for -- ";
         } else {
-            std::cout << "Didn't work. \n";
+            std::cout << "  Tested negative for -- ";
         }
+        std::cout << s << "\n";
     }
+    std::cout << "\n";
 
+    // FALSE NEGATIVE TESTS.
+    // The following functions should return negative.
     std::string negativeTests[] = {
         "if ( not }",
         "[ Error. Brackets not found. :( ]",
@@ -28,16 +35,20 @@ int main() {
         "() () { {} > } }",
         "{ ( vector<int> } ) }",
         ")",
-        "Woof... :("
+        "Hi... :)"
     };
 
+    std::cout << "Testing for false negatives: \n";
+    std::cout << "Arguments should test negative. \n";
     for (std::string s : negativeTests) {
         if (!dl.testString(s)) {
-            std::cout << "Worked. \n";
+            std::cout << "  Tested negative for -- ";
         } else {
-            std::cout << "Didn't work. \n";
+            std::cout << "  Tested positive for -- ";
         }
+        std::cout << s << "\n";
     }
+    std::cout << "\n";
 
     return 0;
 }
