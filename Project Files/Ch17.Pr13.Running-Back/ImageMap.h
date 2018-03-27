@@ -1,14 +1,15 @@
 #include <iostream>
 #include <list>
 #include <ncurses.h>
-#include <curses.h>
+#include <string>
+
 using namespace std;
 
 // const HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
 struct COORD {
-    int X;
-    int Y;
+    short X;
+    short Y;
     COORD() {
         X = 0;
         Y = 0;

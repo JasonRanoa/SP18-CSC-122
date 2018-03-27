@@ -1,7 +1,10 @@
 // This program illustrates animation using the
 // ImageMap class.
-#include "ImageMap.h"
 #include <ncurses.h>
+#include <stdlib.h>
+#include "ImageMap.h"
+
+void wait(int);
 
 int main()
 {
@@ -78,7 +81,7 @@ int main()
         figure3.add(figure3AllParts[k]);
 
     // Ask Microsoft Windows to clear the screen
-    system("cls");
+    clear();
     // Form an array of all three figures
     ImageMap *sequence[3] = {&figure1, &figure2, &figure3};
 
@@ -86,21 +89,34 @@ int main()
     // running across the screen
     k = 0;
     int pos = 0;
-    while (pos <= 60 )
+    while (pos <= 60)
     {
         // Show the current image at the current position
         sequence[k]->displayAt(pos, 3);
-        // Sleep(400);
-        // getch();
+        wait(5000);
+
         // Erase the current image
         sequence[k]->eraseAt(pos, 3);
         // Move to next image in the rotation and next position
         k = (k+1) % 3;
         pos = pos + 8;
+
+        refresh();
+        move(0, 0);
+        clear();
     }
     sequence[k]->displayAt(pos, 3);
+    endwin();
     return 0;
 }
 
-
+/*
+ * From: http://www.cplusplus.com/forum/general/123529/
+ */
+void wait ( int milliseconds )
+{
+    clock_t endwait;
+    endwait = clock () + (milliseconds / 1000.0) * CLOCKS_PER_SEC ;
+    while (clock() < endwait) {}
+}
 

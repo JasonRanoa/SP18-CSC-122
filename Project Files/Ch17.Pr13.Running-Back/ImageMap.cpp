@@ -18,9 +18,7 @@ void ImageMap::add(COORD coordArray[])
 //***************************************************
 void ImageMap::add(short *coordAsShorts)
 {
-    COORD *pCoord;
-    *pCoord = COORD(*coordAsShorts, coordAsShorts[1] );
-    // COORD *pCoord = reinterpret_cast<COORD *>(coordAsShorts);
+    COORD *pCoord = reinterpret_cast<COORD *>(coordAsShorts);
     add(pCoord);
 }
 
@@ -34,11 +32,15 @@ void ImageMap::displayAt(char ch, int col, int row)
     for (; iter != this->end(); iter++)
     {
         COORD currentPos;
-        currentPos.Y = row + iter->Y;
-        currentPos.X = col + iter->X;
+        refresh();
+        mvprintw(row + iter->X, col + iter->Y, "*");
+        // refresh();
+        move(0, 0);
+
+        // currentPos.Y = row + iter->Y;
+        // currentPos.X = col + iter->X;
         // SetConsoleCursorPosition(console, currentPos);
         // wrefresh(stdscr);
-        wmove(stdscr, currentPos.X, currentPos.Y);
-        cout << ch << endl;
+        // wmove(stdscr, currentPos.X, currentPos.Y);
     }
 }

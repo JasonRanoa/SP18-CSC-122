@@ -5,20 +5,31 @@
 #ifndef CH19_PR8_EMPLOYEE_TREE_BINARYTREE_H
 #define CH19_PR8_EMPLOYEE_TREE_BINARYTREE_H
 
+#include <memory> // For the shared pointers.
+#include <vector> // For the iterator.
+
+#include <iostream>
+
+/*
+ * NOTE: This is a limited implementation of a binary tree class.
+ *       Other functions that are not included such as node deletion
+ *       were not needed to fulfill the programming challenge.
+ */
+
 template <class T>
 class BinaryTree {
 
 private:
     struct TreeNode {
-        T value;
+        std::shared_ptr<T> value;
         TreeNode * left;
         TreeNode * right;
 
         TreeNode(
-                T argVal,
+                std::shared_ptr<T> argValPtr,
                 TreeNode * argLeft = nullptr,
                 TreeNode * argRight = nullptr) {
-            value = argVal;
+            value = argValPtr;
             left = argLeft;
             right = argRight;
         }
@@ -26,7 +37,7 @@ private:
     TreeNode * root;
 
     // Private Methods
-    void insert(TreeNode * &, T);
+    void insert(TreeNode * &, std::shared_ptr<T>);
     void destroySubTree(TreeNode *);
 
 public:
@@ -38,10 +49,105 @@ public:
     }
 
     bool search(const T, T&) const;
-    void insert(T item) {
-        insert(root, item);
-    }
+    std::shared_ptr<T> extract(T) const;
+    void insert(T item);
 
+// ITERATOR STUFF
+public:
+    /*
+     * NOTE:
+     * A basic iterator is added, just because I wanted to make one.
+     * THIS DOES NOT HAVE THE FULL CAPABILITY OF AN STL ITERATOR.
+     * ONLY THE METHODS NEEDED TO MAKE THE DRIVER PROGRAM RUN ARE ADDED.
+     */
+    class Iterator {
+
+    private:
+        std::vector< std::shared_ptr<T> > objPointers;
+        unsigned maxIndex;
+        unsigned currentIndex;
+
+        // This function is friended by the Binary Tree class
+        void addPointer(std::shared_ptr<T> newItem) {
+            objPointers.push_back(newItem);
+            maxIndex++;
+        }
+
+    public:
+        Iterator() {
+            maxIndex = 0;
+            currentIndex = 0;
+        }
+        friend class BinaryTree; // Allows the binary tree to access the pointer vector.
+
+        bool good() {
+            return ( currentIndex >= 0 ) && ( currentIndex < maxIndex );
+        }
+        std::shared_ptr<T> current() {
+            if (currentIndex < maxIndex) {
+                return objPointers[currentIndex];
+            } else {
+                return nullptr;
+            }
+        }
+        void reset() {
+            currentIndex = 0;
+        }
+
+        // Deferencing Operators
+        T& operator*() {
+            return *(objPointers[currentIndex]);
+        }
+        const T& operator*() const {
+            return *(objPointers[currentIndex]);
+        }
+        std::shared_ptr<T> operator->() {
+            return objPointers[currentIndex];
+        }
+        const std::shared_ptr<T> operator->() const {
+            return objPointers[currentIndex];
+        }
+
+        // Increment Operators
+
+        Iterator& operator++() {
+            currentIndex++; // Overflows are handled by current() method
+            return *this;
+        }
+        Iterator& operator++(int) {
+            currentIndex++; // There's no difference between post and pre
+                            // in this implementation.
+            return *this;
+        }
+
+        // Conversion Operators
+        operator std::shared_ptr<T>() const {
+            if (currentIndex < maxIndex) {
+                return objPointers[currentIndex];
+            } else {
+                return nullptr;
+            }
+        }
+        operator T * () const {
+            if (currentIndex < maxIndex) {
+                return objPointers[currentIndex];
+            } else {
+                return nullptr;
+            }
+        };
+
+    };
+
+// BinaryTree Iterator Generators
+private:
+    void addInOrderIterator(TreeNode * tree, BinaryTree<T>::Iterator & i);
+
+public:
+    BinaryTree<T>::Iterator getInOrderIterator() {
+        BinaryTree<T>::Iterator i;
+        addInOrderIterator(root, i);
+        return i;
+    }
 
 };
 
@@ -50,7 +156,7 @@ public:
 // PRIVATE METHODS
 
 template <class T>
-void BinaryTree<T>::insert(TreeNode *& tree, T newItem) {
+void BinaryTree<T>::insert(TreeNode *& tree, std::shared_ptr<T> newItem) {
     // If tree is empty.
     if (!tree) {
         tree = new TreeNode(newItem);
@@ -58,11 +164,11 @@ void BinaryTree<T>::insert(TreeNode *& tree, T newItem) {
     }
 
     // If value is already in tree.
-    if (tree->value == newItem) {
+    if (*tree->value == *newItem) {
         return; // Do nothing.
     }
 
-    if (newItem < tree->value) {
+    if (*newItem < *tree->value) {
         insert(tree->left, newItem);
     } else {
         insert(tree->right, newItem);
@@ -85,7 +191,7 @@ template <class T>
 bool BinaryTree<T>::search(const T searchTerm, T & itemContainer) const {
     TreeNode * tree = root;
     while (tree) {
-        if (tree->value == searchTerm) {
+        if (*(tree->value) == searchTerm) {
             itemContainer = tree->value;
             return true;
         } else if (searchTerm < tree->value) {
@@ -95,6 +201,37 @@ bool BinaryTree<T>::search(const T searchTerm, T & itemContainer) const {
         }
     }
     return false;
+}
+
+
+template <class T>
+std::shared_ptr<T> BinaryTree<T>::extract(const T searchTerm) const {
+    TreeNode * tree = root;
+    while (tree) {
+        if (searchTerm == *(tree->value)) {
+            return tree->value;
+        } else if (searchTerm < *(tree->value)) {
+            tree = tree->left;
+        } else {
+            tree = tree->right;
+        }
+    }
+    return nullptr;
+}
+
+template <class T>
+void BinaryTree<T>::insert(T item) {
+    insert(root, std::make_shared<T>(item));
+}
+
+// BinaryTree Iterator Generator -- Implementation
+template <class T>
+void BinaryTree<T>::addInOrderIterator(TreeNode * tree, BinaryTree<T>::Iterator & i) {
+    if (tree) {
+        addInOrderIterator(tree->left, i);
+        i.addPointer(tree->value);
+        addInOrderIterator(tree->right, i);
+    }
 }
 
 #endif //CH19_PR8_EMPLOYEE_TREE_BINARYTREE_H
